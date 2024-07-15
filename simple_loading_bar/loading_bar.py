@@ -34,8 +34,15 @@ class LoadingBar:
         bar_string += f'[{self.filled * filled_cells}{self.empty * (self.length-filled_cells)}]'
         print(f'\r{" "*self.previous_length}', end='')
         print(bar_string)
-    def update(self, current_operation='', new_value=0, increment=False):
-        self.value = new_value if not increment else self.value + 1
+    def set_value(self, new_value, current_operation=''):
+        self.value = new_value
+        self.current_operation = current_operation if current_operation != '' else self.current_operation
+        if self.value < self.max_value:
+            self._display()
+        else:
+            self._end()
+    def increment(self, current_operation=''):
+        self.value += 1
         self.current_operation = current_operation if current_operation != '' else self.current_operation
         if self.value < self.max_value:
             self._display()
