@@ -1,4 +1,20 @@
 class LoadingBar:
+    """
+    A class to represent a progress bar in the console.
+
+    Attributes:
+        max_value (int): The maximum value of the progress bar.
+        length (int): The length of the progress bar in characters.
+        show_percentage (bool): Whether to display the percentage completion.
+        show_progress (bool): Whether to display the current progress value.
+        filled (str): Character used for the filled portion of the bar.
+        empty (str): Character used for the empty portion of the bar.
+        starting_operation (str): Initial operation message to display.
+
+    Methods:
+        set_value(new_value, current_operation=''): Sets the progress bar to a new value and updates the display.
+        increment(current_operation=''): Increments the progress bar by one and updates the display.
+    """
     def __init__(self, max_value, length=50, show_percentage=True, show_progress=True, filled='#', empty='-', starting_operation=''):
         '''
         Initializes a LoadingBar instance.
