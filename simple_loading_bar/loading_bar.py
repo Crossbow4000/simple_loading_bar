@@ -1,5 +1,17 @@
 class LoadingBar:
-    def __init__(self, max_value, length=50, show_percentage=True, show_progress=True, filled='#', empty='-', starting_operation = ''):
+    def __init__(self, max_value, length=50, show_percentage=True, show_progress=True, filled='#', empty='-', starting_operation=''):
+        '''
+        Initializes a LoadingBar instance.
+
+        Parameters:
+            max_value (int): The maximum value of the progress bar.
+            length (int, optional): The length of the progress bar. Defaults to 50.
+            show_percentage (bool, optional): Whether to display the percentage of completion. Defaults to True.
+            show_progress (bool, optional): Whether to display the current progress value. Defaults to True.
+            filled (str, optional): The character used to represent the filled portion of the bar. Defaults to '#'.
+            empty (str, optional): The character used to represent the empty portion of the bar. Defaults to '-'.
+            starting_operation (str, optional): The initial operation message to display. Defaults to ''.
+        '''
         self.value = 0
         self.max_value = max_value
         self.length = length
@@ -9,7 +21,11 @@ class LoadingBar:
         self.empty = empty
         self.current_operation = starting_operation
         self._previous_length = 0
+
     def _display(self):
+        '''
+        Updates the display of the loading bar in the console.
+        '''
         percent_filled = round(self.value / self.max_value, 2)
         filled_cells = round(self.length * percent_filled)
         bar_string = '\r'
@@ -23,7 +39,11 @@ class LoadingBar:
             print(f'\r{" "*self._previous_length}', end='')
         print(bar_string, end='')
         self._previous_length = len(bar_string)
+
     def _end(self):
+        '''
+        Finalizes the display of the loading bar by showing the completed state.
+        '''
         percent_filled = self.value / self.max_value
         filled_cells = round(self.length * percent_filled)
         bar_string = '\r'
@@ -34,24 +54,29 @@ class LoadingBar:
         bar_string += f'[{self.filled * filled_cells}{self.empty * (self.length-filled_cells)}]'
         print(f'\r{" "*self._previous_length}', end='')
         print(bar_string)
-    def update(self, current_operation='', new_value=0, increment=False):
-        '''
-        This function is currently deprecated. Use the set_value() and increment() functions instead.
-        '''
-        self.value = new_value if not increment else self.value + 1
-        self.current_operation = current_operation if current_operation != '' else self.current_operation
-        if self.value < self.max_value:
-            self._display()
-        else:
-            self._end()
+
     def set_value(self, new_value, current_operation=''):
+        '''
+        Sets the current value of the loading bar and updates the display.
+
+        Parameters:
+            new_value (int): The new value to set for the progress bar.
+            current_operation (str, optional): The operation message to display. Defaults to ''.
+        '''
         self.value = new_value
         self.current_operation = current_operation if current_operation != '' else self.current_operation
         if self.value < self.max_value:
             self._display()
         else:
             self._end()
+
     def increment(self, current_operation=''):
+        '''
+        Increments the current value of the loading bar by 1 and updates the display.
+
+        Parameters:
+            current_operation (str, optional): The operation message to display. Defaults to ''.
+        '''
         self.value += 1
         self.current_operation = current_operation if current_operation != '' else self.current_operation
         if self.value < self.max_value:
