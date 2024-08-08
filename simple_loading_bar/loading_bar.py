@@ -38,6 +38,36 @@ class LoadingBar:
         self.current_operation = starting_operation
         self._previous_length = 0
 
+    
+    def set_value(self, new_value, current_operation=''):
+        '''
+        Sets the current value of the loading bar and updates the display.
+
+        Parameters:
+            new_value (int): The new value to set for the progress bar.
+            current_operation (str, optional): The operation message to display. Defaults to ''.
+        '''
+        self.value = new_value
+        self.current_operation = current_operation if current_operation != '' else self.current_operation
+        if self.value < self.max_value:
+            self._display()
+        else:
+            self._end()
+
+    def increment(self, current_operation=''):
+        '''
+        Increments the current value of the loading bar by 1 and updates the display.
+
+        Parameters:
+            current_operation (str, optional): The operation message to display. Defaults to ''.
+        '''
+        self.value += 1
+        self.current_operation = current_operation if current_operation != '' else self.current_operation
+        if self.value < self.max_value:
+            self._display()
+        else:
+            self._end()
+
     def _display(self):
         '''
         Updates the display of the loading bar in the console.
@@ -70,32 +100,3 @@ class LoadingBar:
         bar_string += f'[{self.filled * filled_cells}{self.empty * (self.length-filled_cells)}]'
         print(f'\r{" "*self._previous_length}', end='')
         print(bar_string)
-
-    def set_value(self, new_value, current_operation=''):
-        '''
-        Sets the current value of the loading bar and updates the display.
-
-        Parameters:
-            new_value (int): The new value to set for the progress bar.
-            current_operation (str, optional): The operation message to display. Defaults to ''.
-        '''
-        self.value = new_value
-        self.current_operation = current_operation if current_operation != '' else self.current_operation
-        if self.value < self.max_value:
-            self._display()
-        else:
-            self._end()
-
-    def increment(self, current_operation=''):
-        '''
-        Increments the current value of the loading bar by 1 and updates the display.
-
-        Parameters:
-            current_operation (str, optional): The operation message to display. Defaults to ''.
-        '''
-        self.value += 1
-        self.current_operation = current_operation if current_operation != '' else self.current_operation
-        if self.value < self.max_value:
-            self._display()
-        else:
-            self._end()
