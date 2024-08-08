@@ -8,7 +8,7 @@ class LoadingBar:
         self.filled = filled
         self.empty = empty
         self.current_operation = starting_operation
-        self.previous_length = 0
+        self._previous_length = 0
     def _display(self):
         percent_filled = round(self.value / self.max_value, 2)
         filled_cells = round(self.length * percent_filled)
@@ -19,10 +19,10 @@ class LoadingBar:
             bar_string += f'[{round(percent_filled * 100)}{"  " if percent_filled<0.1 else " " if percent_filled<1 else ""}%]  '
         bar_string += f'[{self.filled * filled_cells}{self.empty * (self.length-filled_cells)}]  '
         bar_string += self.current_operation
-        if self.previous_length > len(bar_string):
-            print(f'\r{" "*self.previous_length}', end='')
+        if self._previous_length > len(bar_string):
+            print(f'\r{" "*self._previous_length}', end='')
         print(bar_string, end='')
-        self.previous_length = len(bar_string)
+        self._previous_length = len(bar_string)
     def _end(self):
         percent_filled = self.value / self.max_value
         filled_cells = round(self.length * percent_filled)
@@ -32,7 +32,7 @@ class LoadingBar:
         if self.show_percentage:
             bar_string += f'[{round(percent_filled * 100)}{"  " if percent_filled<0.1 else " " if percent_filled<1 else ""}%]  '
         bar_string += f'[{self.filled * filled_cells}{self.empty * (self.length-filled_cells)}]'
-        print(f'\r{" "*self.previous_length}', end='')
+        print(f'\r{" "*self._previous_length}', end='')
         print(bar_string)
     def update(self, current_operation='', new_value=0, increment=False):
         '''
